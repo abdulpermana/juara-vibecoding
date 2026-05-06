@@ -1,6 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyBODmgk2G0RwAjoiSNWDVwLQ80zpQKAz_k', });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
 export type StyleType = 'Friendly' | 'Professional' | 'Gen Z' | 'Luxury Brand' | 'Funny';
 
