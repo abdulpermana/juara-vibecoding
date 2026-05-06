@@ -1,6 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY || '',
+});
 
 export type StyleType = 'Friendly' | 'Professional' | 'Gen Z' | 'Luxury Brand' | 'Funny';
 
@@ -22,7 +24,7 @@ Guidelines:
 
 export async function generateReplies(message: string, style: StyleType) {
   if (!message.trim()) return [];
-  console.log("API KEY:", import.meta.env.VITE_GEMINI_API_KEY);
+  console.log("API KEY:", process.env.GEMINI_API_KEY);
 
   try {
     const response = await ai.models.generateContent({
