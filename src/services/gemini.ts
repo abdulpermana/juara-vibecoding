@@ -22,6 +22,7 @@ Guidelines:
 
 export async function generateReplies(message: string, style: StyleType) {
   if (!message.trim()) return [];
+  console.log("API KEY:", import.meta.env.VITE_GEMINI_API_KEY);
 
   try {
     const response = await ai.models.generateContent({
