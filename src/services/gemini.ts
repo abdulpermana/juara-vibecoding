@@ -28,7 +28,7 @@ export async function generateReplies(message: string, style: StyleType) {
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: `Style: ${style}\nCustomer Message: ${message}`,
       config: {
         systemInstruction: SYSTEM_PROMPT,
