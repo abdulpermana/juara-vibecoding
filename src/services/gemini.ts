@@ -1,7 +1,7 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { Type } from "@google/genai";
 
 const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || '',
+  apiKey: || '',
 });
 
 export type StyleType = 'Friendly' | 'Professional' | 'Gen Z' | 'Luxury Brand' | 'Funny';
@@ -24,32 +24,22 @@ Guidelines:
 
 export async function generateReplies(message: string, style: StyleType) {
   if (!message.trim()) return [];
-  console.log("API KEY:", process.env.GEMINI_API_KEY);
 
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `Style: ${style}\nCustomer Message: ${message}`,
-      config: {
-        systemInstruction: SYSTEM_PROMPT,
-        temperature: 0.9,
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            replies: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: "Three distinct reply variations"
-            }
-          },
-          required: ["replies"]
-        }
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        message,
+        style,
+      }),
     });
 
-    const data = JSON.parse(response.text || '{"replies": []}');
-    return (data.replies as string[]) || [];
+    const data = await response.json();
+
+    return data.replies || [];
   } catch (error) {
     console.error("Gemini Error:", error);
     return [];
